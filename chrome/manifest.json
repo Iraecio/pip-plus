@@ -1,0 +1,12 @@
+{
+  "name": "Disney+ & Star+ PIP",
+  "description": "Adds Picture-in-Picture (PIP) support for Disney+ & Star+",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://*.disneyplus.com/*", "https://*.starplus.com/*"],
+      "js": ["assets/js/script.js"]
+    }
+  ]
+}
