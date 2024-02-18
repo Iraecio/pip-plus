@@ -1,5 +1,4 @@
 ## Picture in Picture for Disney+ & Star+
-## Documentação da Extensão Chrome para Disney+ e Star+ (Markdown)
 
 ### Visão Geral
 
