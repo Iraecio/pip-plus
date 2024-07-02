@@ -4,4 +4,4 @@ The extension Disney+ PIP collects no information about its users and does not s
 
 ## License
 
-[View the license for this extension](https://www.google.com)
+[View the license for this extension](https://github.com/Iraecio/pip-plus/blob/main/LICENSE.md)
