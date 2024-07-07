@@ -12,12 +12,16 @@ class PIP {
       childList: true,
       subtree: true,
     });
+
+    window.addEventListener("unload", () => this.observer.disconnect(), {
+      once: true,
+    });
   }
 
   isPlayerPage() {
-    const url = new URL(window.location);
-    const pattern = /^\/?[A-Za-z-]*\/video\//i;
-    return pattern.test(url.pathname);
+    const { pathname } = window.location;
+    const pattern = /^\/?[A-Za-z-]+\/video\/?$/i;
+    return pattern.test(pathname);
   }
 
   togglePiP() {
@@ -31,19 +35,14 @@ class PIP {
   }
 
   createPipButton() {
-    const TYPE = "button";
-    const PIP_BUTTON_ID = "pip-btn";
-    const PIP_BUTTON_CLASS = "control-icon-btn fullscreen-icon";
-
-    const button = document.createElement(TYPE);
-    button.id = PIP_BUTTON_ID;
-    button.type = TYPE;
-    button.role = TYPE;
+    const button = document.createElement("button");
+    button.id = "pip-btn";
+    button.type = "button";
+    button.role = "button";
     button.tabindex = "0";
-    button.classList = PIP_BUTTON_CLASS;
+    button.classList = "control-icon-btn fullscreen-icon";
     button.innerHTML = this.createButtonContent();
-
-    button.addEventListener("click", () => this.togglePiP());
+    button.addEventListener("click", this.togglePiP());
 
     return button;
   }
@@ -57,19 +56,13 @@ class PIP {
 			</div>`;
   }
 
-  hasPipControls() {
-    return !!document.getElementById("pip-btn");
-  }
-
   injectPipControls() {
-    if (this.hasPipControls()) {
-      return true;
-    }
-
-    this.element = document.querySelector("video");
-
-    if (!this.isPlayerPage() || !this.element) {
-      return false;
+    if (
+      this.btnElementIdExists ||
+      !this.isPlayerPage() ||
+      !this.videoElement()
+    ) {
+      return;
     }
 
     this.element.disablePictureInPicture = false;
@@ -78,8 +71,19 @@ class PIP {
 
     if (target) {
       target.insertAdjacentElement("afterbegin", this.createPipButton());
-      return true;
     }
+  }
+
+  btnElementIdExists() {
+    return !!document.getElementById("pip-btn");
+  }
+
+  videoElement() {
+    if (!this.element) {
+      this.element = document.querySelector("video");
+    }
+
+    return this.element;
   }
 }
 
